@@ -1,0 +1,68 @@
+{% if res_list_dict=='list' %}
+<div class="row">
+    <div class="col-md-12">
+        <label for="{{value}}" class="input-number-label">
+            {{column_display_name}}
+        </label>
+        <div class="row pl-5 pr-5 border border-info">
+            {% for json_row in value %}
+            <div class="border border-top-0 border-right-0 border-left-0 border-dark row">
+            {% for json_column_name, json_value in json_row.items()%}
+                {% set res_list_dict = check_if_value_is_list_or_dict(json_value) %}
+                <div class="col-md-{% if res_list_dict in ['list','dict'] %}12{%else%}6{%endif%}">
+                {% if res_list_dict in ['list','dict'] %}
+                {% set value = json_value %}
+                    <div class="col-md-12 border border-info">
+                        {% set column_display_name =json_column_name%}
+                        {% include 'lms-admin/components/json_form.html'%}
+                    </div>
+                {% else %}
+                    <div class="md-form form-lg">
+                        <input type="text" id="{{json_column_name}}" name="{{json_column_name}}"
+                               class="form-control form-control-lg" value="{{json_value}}">
+                        <label data-error="incorrect" data-success="correct" for="{{json_column_name}}">
+                            {{json_column_name}}
+                        </label>
+                    </div>
+                {% endif %}
+                </div>
+            {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+
+{% if res_list_dict=='dict' %}
+<div class="row">
+    <div class="col-md-12">
+        <label for="{{value}}" class="input-number-label">
+            {{column_display_name}}
+        </label>
+        <div class="row pl-5 pr-5 border border-info">
+            {% for json_column_name, json_value in value.items()%}
+                {% set res_list_dict = check_if_value_is_list_or_dict(json_value) %}
+                <div class="col-md-{% if res_list_dict in ['list','dict'] %}12{%else%}6{%endif%}">
+                {% if res_list_dict in ['list','dict'] %}
+                {% set value = json_value %}
+                <div class="col-md-12">
+                    {% set column_display_name = json_column_name%}
+                    {% include 'lms-admin/components/json_form.html'%}
+                </div>
+                {% else %}
+                <div class="md-form form-lg">
+                    <input type="text" id="{{json_column_name}}" name="{{json_column_name}}"
+                           class="form-control form-control-lg" value="{{json_value}}">
+                    <label data-error="incorrect" data-success="correct" for="{{json_column_name}}">
+                        {{json_column_name}}
+                    </label>
+                </div>
+                {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endif %}

@@ -1,0 +1,70 @@
+<div class="modal-header text-center info-color">
+    <h4 class="modal-title w-100 font-weight-bold text-white">{{module_json['display_name']}}</h4>
+</div>
+{% if 'id' not in row_data %}
+    {% set form_action = url_for('module_create_record_form',module=module) %}
+    {% set form_method = 'POST' %}
+{% else %}
+    {% set form_action = url_for('get_module_row_data',module=module,id=row_data['id']) %}
+    {% set form_method = 'PUT' %}
+{% endif %}
+<form class="" method="{{form_method}}" id="editRecordForm"
+      action="{{form_action}}" func-type="saveEditForm">
+    <div class="modal-body mx-3">
+        {% set loop_counter = 2%}
+        {% for column_name, column_value in row_data.items() %}
+        {% if column_name == 'id' %}
+        <input type="hidden" id="{{column_name}}" name="{{column_name}}" value="{{column_value}}">
+        {% else %}
+        {% set column_type = lms_module_json_column_key_value(module,column_name,'column','type') %}
+        {% set column_display_name = lms_module_json_column_key_value(module,column_name) %}
+        {% if loop_counter % 2 == 0 %}
+        <div class="row">
+            {% endif %}
+            <div class="col-md-{% if 'json' in column_type %}12{% else %}6{%endif%}">
+                <div class="md-form form-lg">
+                    {% include 'lms-admin/components/input_fields.html' %}
+                </div>
+            </div>
+            {% if loop_counter % 2 != 0%}
+        </div>
+        {% endif %}
+        {% set loop_counter = loop_counter + 1 %}
+        {% endif %}
+        {% endfor %}
+
+    </div>
+    <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-unique" type="submit">Save <i class="fas fa-save"></i></button>
+    </div>
+</form>
+<style>
+    label::after {
+        top: 1.9rem !important;
+        font-size: 15px !important;
+    }
+</style>
+<div class="server-response-message text-center"></div>
+<script>$("input[type=text].form-control").trigger("change");
+$("form").submit(function (e) {
+    e.preventDefault();
+    var form_id = $(this).attr('id');
+    var form_url = $(this).attr('action');
+    var form_type = $(this).attr('method');
+    var func_type = $(this).attr('func-type');
+    var form = $(this)[0];
+    var formData = new FormData(form);
+    $('.server-response-message').html($('.loader').html());
+    ajaxCall(form_type, form_url, LmsAdminObj.handleResponse, func_type, formData);
+});
+$('select').on('click focus change keyup', function () {
+    var message_holder_id = $(this).attr("id")+'--error'
+    $('#'+message_holder_id).text('');
+    $('#'+message_holder_id).addClass('hidden');
+});
+$('input').on('click focus change keyup', function () {
+    var message_holder_id = $(this).attr("id")+'--error'
+    $('#'+message_holder_id).text('');
+    $('#'+message_holder_id).addClass('hidden');
+});
+</script>

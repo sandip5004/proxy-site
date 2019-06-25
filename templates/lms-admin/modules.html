@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+{% block title %}{{ module }}{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block module_card %}
+    {% if module %}{{module}}{%endif%}
+{% endblock %}
+{% block content %}
+    {% if module=='CS Modules'%}
+        {% include 'lms-admin/components/tables.html' %}
+    {% endif %}
+    {% if module=='Reports'%}
+        {% include 'lms-admin/components/reports.html' %}
+    {% endif %}
+    {% if module=='Custom Modules'%}
+        {% include 'lms-admin/components/custom_modules.html' %}
+    {% endif %}
+{% endblock %}

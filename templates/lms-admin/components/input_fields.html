@@ -1,0 +1,54 @@
+{% if 'string' in column_type %}
+    {% set check_value = lms_module_json_column_key_value(module,column_name,'column','check_value') %}
+    {% if check_value == False %}
+    <input type="text" id="{{column_name}}" name="{{column_name}}" class="form-control-lg form-control" value="{{column_value}}">
+    <span class="error-message-holder border border-left-0 border-right-0 border-bottom-0 border-top border-danger hidden text-danger" id="{{column_name}}--error"></span>
+    <label for="{{column_name}}">
+        {{column_display_name}}
+    </label>
+    {% else %}
+        {% set foregn_key_options = get_all_foreign_key_options(module, column_name, check_value) %}
+        <select id="{{column_name}}" name="{{column_name}}" class="browser-default custom-select">
+            <option value="{{column_display_name}}" style="display: none;">--{{column_display_name}}--</option>
+            {% for val_dict in foregn_key_options%}
+            <option value="{{val_dict['id']}}" {% if val_dict['value']==column_value%} selected {%endif%}>{{val_dict['value']}}</option>
+            {% endfor %}
+        </select>
+        <span class="error-message-holder border border-left-0 border-right-0 border-bottom-0 border-top border-danger hidden text-danger" id="{{column_name}}--error" style="margin-top: 7px;"></span>
+        <label for="{{column_name}}" class="select-label">
+            {{column_display_name}}
+        </label>
+    {% endif %}
+
+
+{% elif 'boolean' in column_type %}
+    <select id="{{column_name}}" name="{{column_name}}" class="browser-default custom-select">
+        <option value="{{column_display_name}}" style="display: none;">--{{column_display_name}}--</option>
+        {% set boolean_val_list = ['True','False'] %}
+        {% for boolean_val in boolean_val_list%}
+        <option value="{{boolean_val}}" {% if boolean_val==column_value%} selected {%endif%}>{{boolean_val}}</option>
+        {% endfor %}
+    </select>
+    <span class="error-message-holder border border-left-0 border-right-0 border-bottom-0 border-top border-danger hidden text-danger" id="{{column_name}}--error" style="margin-top: 7px;"></span>
+    <label for="{{column_name}}" class="select-label">
+        {{column_display_name}}
+    </label>
+
+
+{% elif 'integer' in column_type %}
+<label for="{{column_name}}" class="input-number-label">
+    {{column_display_name}}
+</label>
+<div class="def-number-input number-input safari_only">
+  <a onclick="this.parentNode.querySelector('input[type=number]').stepDown();" class="minus"></a>
+  <input class="quantity" min="0" type="number" id="{{column_name}}" name="{{column_name}}"  value="{{column_value}}">
+  <a onclick="this.parentNode.querySelector('input[type=number]').stepUp()" class="plus"></a>
+</div>
+<span class="error-message-holder border border-left-0 border-right-0 border-bottom-0 border-top border-danger hidden text-danger" id="{{column_name}}--error"></span>
+
+
+{% elif 'json' in column_type %}
+    {% set res_list_dict = check_if_value_is_list_or_dict(column_value) %}
+    {% set value = column_value %}
+    {% include 'lms-admin/components/json_form.html' %}
+{%endif%}

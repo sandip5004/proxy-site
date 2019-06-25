@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% block head %}
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Proxy</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" type="text/css"
+          href="{{ url_for('static_files.static', filename='css/bootstrap.min.css') }}">
+    <!-- Material Design Bootstrap -->
+    <link href="{{ url_for('static_files.static', filename='css/mdb.min.css') }}" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="{{ url_for('static_files.static', filename='css/style.css') }}" rel="stylesheet">
+
+    {% endblock %}
+    <link rel="shortcut icon" href="">
+</head>
+<body class="grey lighten-3">
+
+<!--Main Navigation-->
+<header>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light white scrolling-navbar">
+        <div class="container-fluid">
+            <!-- Brand -->
+            <a class="navbar-brand waves-effect" target="_blank">
+                <strong class="blue-text"></strong>
+            </a>
+
+            <!-- Collapse -->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Sidebar -->
+    <div class="sidebar-fixed position-fixed">
+
+        <a class="logo-wrapper waves-effect">
+            <img src="" class="img-fluid" alt="">
+        </a>
+
+        <div class="list-group list-group-flush">
+
+        </div>
+
+    </div>
+    <!-- Sidebar -->
+
+</header>
+<!--Main Navigation-->
+
+<!--Main layout-->
+<main class="pt-5 mx-lg-5">
+    <div class="container-fluid mt-5">
+        <!-- Heading -->
+        <div class="card mb-4 wow fadeIn">
+
+            <div class="card-body d-sm-flex justify-content-between">
+                <h4 class="mb-2 mb-sm-0 pt-1">
+                    <span>{% block module_card %}{% endblock %}</span>
+                </h4>
+            </div>
+        </div>
+        <div class="row wow fadeIn">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</main>
+<div class="loader hidden">
+    <div class="text-center mt-5 mb-5">
+        <h3>Loading....</h3>
+        <div class="spinner-grow text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-success" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-danger" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-warning" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-info" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-light" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+</div>
+{% include 'lms-admin/components/error.html'%}
+
+<style>
+
+.wrapper {
+  margin: auto;
+  max-width: 640px;
+  padding-top: 60px;
+  text-align: center;
+}
+
+.container {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  /*border: 0.5px solid rgba(130, 130, 130, 0.25);*/
+  /*box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1),
+              0 0 0 1px rgba(0, 0, 0, 0.1);*/
+}
+
+h1 {
+  color: #130f40;
+  font-family: 'Varela Round', sans-serif;
+  letter-spacing: -.5px;
+  font-weight: 700;
+  padding-bottom: 10px;
+}
+
+.upload-container {
+  background-color: rgb(239, 239, 239);
+  border-radius: 6px;
+  padding: 10px;
+}
+
+.border-container {
+  border: 5px dashed rgba(198, 198, 198, 0.65);
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.border-container p {
+  color: #130f40;
+  font-weight: 600;
+  font-size: 1.1em;
+  letter-spacing: -1px;
+  margin-top: 30px;
+  margin-bottom: 0;
+  opacity: 0.65;
+}
+
+#file-browser {
+  text-decoration: none;
+  color: rgb(22,42,255);
+  border-bottom: 3px dotted rgba(22, 22, 255, 0.85);
+}
+
+#file-browser:hover {
+  color: rgb(0, 0, 255);
+  border-bottom: 3px dotted rgba(0, 0, 255, 0.85);
+}
+
+.icons {
+  color: #95afc0;
+  opacity: 0.55;
+}
+
+</style>
+
+
+<div class="modal fade bd-example-modal-xl" id="fileUploadModal" tabindex="-1" role="dialog"
+     aria-labelledby="myExtraLargeModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content white">
+<div class="modal-header text-center info-color">
+    <h4 class="modal-title w-100 font-weight-bold text-white">Bulk Upload</h4>
+</div>
+            <div class="wrapper">
+  <div class="container">
+    <h1>Upload a file</h1>
+    <div class="upload-container">
+      <div class="border-container">
+        <div class="icons fa-4x">
+          <i class="fas fa-file-image" data-fa-transform="shrink-3 down-2 left-6 rotate--45"></i>
+          <i class="fas fa-file-alt" data-fa-transform="shrink-2 up-4"></i>
+          <i class="fas fa-file-pdf" data-fa-transform="shrink-3 down-2 right-6 rotate-45"></i>
+        </div>
+        <!--<input type="file" id="file-upload">-->
+        <p>Drag and drop files here, or
+          <a href="#" id="file-browser">browse</a> your computer.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+        </div>
+    </div>
+</div>
+{% include 'lms-admin/components/edit_form_modal.html' %}
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/jquery-3.4.0.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/popper.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/mdb.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/addons/datatables.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static_files.static', filename='js/addons/datatables-select.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static_files.static', filename='js/addons/jquery.zmd.hierarchical-display.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static_files.static', filename='js/addons/imagesloaded.pkgd.min.js') }}"></script>
+<script type="text/javascript"
+        src="{{ url_for('static_files.static', filename='js/addons/masonry.pkgd.min.js') }}"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/addons/rating.js') }}"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js" type="text/javascript"></script>
+<script type="text/javascript" src="{{ url_for('static_files.static', filename='js/functions.js') }}"></script>
+</body>
+
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
