@@ -20,8 +20,7 @@ app.register_blueprint(site_static_blueprint)
 
 @app.route("/")
 def home():
-    return render_template("/lms-admin/dashboard.html",**{'module' : 'Dashboard'}), 200
-
+    return render_template("/dashboard.html",**{'module' : 'Dashboard'}), 200
 
 if __name__ == "__main__":
     app.run(debug=True, port=8000)

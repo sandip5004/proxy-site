@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+{% block title %}{{ module }}{% endblock %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+{% block module_card %}
+{% if module %}{{module}}{%endif%}
+{% endblock %}
+{% block content %}
+<div class="col-md-6">
+    <!-- Default form register -->
+    <form class="text-center border border-light p-5 shadow-lg">
+        <p class="h4 mb-4">Create Proxies</p>
+        <select id="zone" name="zone" class="browser-default custom-select" required>
+            <option value="" style="display: none;">--Which Zone You Want Your Proxies To Be In?--</option>
+            <option value="">US East (N. Virginia)</option>
+            <option value="">US East (Ohio)</option>
+            <option value="">US West (N. California)</option>
+            <option value="">US West (Oregon)</option>
+            <option value="">Canada (Central)</option>
+            <option value="">EU (Frankfurt)</option>
+            <option value="">EU (Ireland)</option>
+            <option value="">EU (London)</option>
+            <option value="">EU (Paris)</option>
+            <option value="">EU (Stockholm)</option>
+        </select>
+        <div class="form-group">
+            <label for="proxy_count">Number Of Proxies</label>
+            <input type="number" class="form-control" id="proxy_count" placeholder="Number Of Proxies" min="0" step="1" value="0" max="20">
+        </div>
+        <button class="btn btn-info my-4 btn-block" type="submit">Create</button>
+        <hr>
+    </form>
+    <!-- Default form register -->
+</div>
+
+{% endblock %}
