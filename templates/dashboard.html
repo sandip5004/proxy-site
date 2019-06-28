@@ -9,29 +9,36 @@
 {% block content %}
 <div class="col-md-6">
     <!-- Default form register -->
-    <form class="text-center border border-light p-5 shadow-lg">
+    <form class="text-center border border-light p-5 shadow-lg" method="post" action="{{ url_for('home') }}">
         <p class="h4 mb-4">Create Proxies</p>
         <select id="zone" name="zone" class="browser-default custom-select" required>
             <option value="" style="display: none;">--Which Zone You Want Your Proxies To Be In?--</option>
-            <option value="">US East (N. Virginia)</option>
-            <option value="">US East (Ohio)</option>
-            <option value="">US West (N. California)</option>
-            <option value="">US West (Oregon)</option>
-            <option value="">Canada (Central)</option>
-            <option value="">EU (Frankfurt)</option>
-            <option value="">EU (Ireland)</option>
-            <option value="">EU (London)</option>
-            <option value="">EU (Paris)</option>
-            <option value="">EU (Stockholm)</option>
+            <option value="us-east-1">US East (N. Virginia)</option>
+            <option value="us-east-2">US East (Ohio)</option>
+            <option value="us-west-1">US West (N. California)</option>
+            <option value="us-west-2">US West (Oregon)</option>
+            <option value="ca-central-1">Canada (Central)</option>
+            <option value="eu-central-1">EU (Frankfurt)</option>
+            <option value="eu-west-1">EU (Ireland)</option>
+            <option value="eu-west-2">EU (London)</option>
+            <option value="eu-west-3">EU (Paris)</option>
+            <option value="eu-north-1">EU (Stockholm)</option>
         </select>
         <div class="form-group">
             <label for="proxy_count">Number Of Proxies</label>
-            <input type="number" class="form-control" id="proxy_count" placeholder="Number Of Proxies" min="0" step="1" value="0" max="20">
+            <input type="number" name="proxy_count" class="form-control" id="proxy_count" placeholder="Number Of Proxies" min="0" step="1" value="0" max="20">
         </div>
         <button class="btn btn-info my-4 btn-block" type="submit">Create</button>
         <hr>
     </form>
     <!-- Default form register -->
+</div>
+<div class="col-md-6">
+    {% if instances %}
+        {%for instance in instances%}
+            {{instance}}:8888<br>
+        {%endfor%}
+    {% endif%}
 </div>
 
 {% endblock %}
