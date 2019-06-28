@@ -62,7 +62,7 @@ def home():
         ec2 = boto3.resource('ec2')
         ec2.create_instances(ImageId=regions.get(request.form['zone']), MinCount=int(request.form['proxy_count']),
                              MaxCount=int(request.form['proxy_count']),
-                             InstanceType='t2.micro',
+                             InstanceType='t3a.large',
                              # KeyName='sandip.dev'
                              )
         return redirect("/"), 302
@@ -77,7 +77,7 @@ def home():
             for instance in ec2.instances.all():
                 if instance.public_ip_address:
                     print(instance.id)
-                    total_billing += 0.08
+                    total_billing += 0.4
                     total_proxies +=1
                     instances.append(
                         {'id':instance.id,'proxy': instance.public_ip_address, 'region': region_names.get(region['RegionName'])})
