@@ -71,6 +71,7 @@ def home():
                              )
         return redirect("/"), 302
     else:
+        boto3.setup_default_session(region_name='us-east-2c')
         client = boto3.client('ec2')
         instances = []
         total_billing = 0.0
