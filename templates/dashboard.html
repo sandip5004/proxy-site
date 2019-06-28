@@ -33,11 +33,17 @@
     </form>
     <!-- Default form register -->
 </div>
-<div class="col-md-6">
+<div class="col-md-6 border border-light p-5 shadow-lg">
+    <center><p class="h4 mb-4">Your Proxies</p></center>
     {% if instances %}
         {%for instance in instances%}
-            {{instance}}:8888<br>
+            {{instance.proxy}}:8888 ({{instance.region}}) @ 0.08/hour
+            {%if instance.id!='i-0d1407909cad2ee82'%}
+            <a class="close" aria-label="Close" href="{{ url_for('delete_instance',id=instance.id)}}"><span aria-hidden="true">×</span></a>
+            {%endif%}
+        <br>
         {%endfor%}
+        Yout total billing will be $ {{total_billing}}/hour for {{total_proxies}} proxies
     {% endif%}
 </div>
 

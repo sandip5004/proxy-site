@@ -1,4 +1,4 @@
-from flask import Flask, render_template, make_response, send_from_directory, Blueprint, jsonify, request
+from flask import Flask, render_template, make_response, send_from_directory, Blueprint, jsonify, request, redirect
 import os
 import boto3
 import pprint
@@ -36,10 +36,28 @@ regions = {
     'eu-west-3':'ami-0d02d1f42e41770c4',
     'eu-north-1':'ami-04b38e0bbea7a5167'
 }
-
+region_names ={
+    'us-east-1': 'N. Virginia',
+    'us-east-2': 'Ohio',
+    'us-west-1': 'N. California',
+    'us-west-2': 'Oregon',
+    'ca-central-1': 'Canada',
+    'eu-central-1': 'Frankfurt',
+    'eu-west-1': 'Ireland',
+    'eu-west-2': 'London',
+    'eu-west-3': 'Paris',
+    'eu-north-1': 'Stockholm'
+}
 def get_session(region):
     return boto3.session.Session(region_name=region)
 
+
+@app.route("/instance/delete/<id>", methods=[ "GET"])
+def delete_instance(id):
+    if id!='i-0d1407909cad2ee82':
+        ec2 = boto3.resource('ec2')
+        ec2.instances.filter(InstanceIds=[id]).terminate()
+    return redirect("/"), 302
 
 @app.route("/", methods=["POST", "GET"])
 def home():
@@ -51,17 +69,22 @@ def home():
                              InstanceType='t2.micro',
                              # KeyName='sandip.dev'
                              )
+        return redirect("/"), 302
+    else:
         client = boto3.client('ec2')
         instances = []
+        total_billing = 0.0
+        total_proxies = 0
         for region in client.describe_regions()['Regions']:
             ec2 = boto3.resource('ec2', region_name=region['RegionName'])
             for instance in ec2.instances.all():
                 if instance.public_ip_address:
-                    pprint.pprint(instance)
-                    instances.append(instance.public_ip_address)
-        return render_template("/dashboard.html", **{'instances': instances}), 200
-    else:
-        return render_template("/dashboard.html", **{'module': 'Dashboard'}), 200
+                    print(instance.id)
+                    total_billing += 0.08
+                    total_proxies +=1
+                    instances.append(
+                        {'id':instance.id,'proxy': instance.public_ip_address, 'region': region_names.get(region['RegionName'])})
+        return render_template("/dashboard.html", **{'module': 'Dashboard','instances': instances,'total_billing':total_billing,'total_proxies':total_proxies}), 200
 
 
 if __name__ == "__main__":
